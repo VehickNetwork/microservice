@@ -9,7 +9,7 @@ import { Request, Response } from 'express'
 import helmet from 'helmet'
 var compression = require('compression')
 
-const PORT=3000
+const PORT=3001
 const REQ_INTERVAL=7500
 
 AppDataSource.initialize()
@@ -28,12 +28,9 @@ AppDataSource.initialize()
         let txData = new TransactionPayload(
           txResponse.data
         ).getEncodedArguments()
-        if (txData[0] == 'addMileage') {
-          txArgument = parseInt(txData[1], 16)
-        } else {
-          txArgument = StringValue.fromHex(txData[1]).valueOf()
-        }
-
+        
+        txArgument = StringValue.fromHex(txData[1]).valueOf()
+        
         let scResultData = StringValue.fromHex(
           new TransactionPayload(
             txResponse.contractResults.items[0].data
